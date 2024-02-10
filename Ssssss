@@ -1,51 +1,36 @@
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.CoreGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0.3, 0, 0.5, 0)
-frame.Position = UDim2.new(0.35, 0, 0.25, 0)
-frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-frame.Parent = gui
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 200, 0, 150)
+Frame.Position = UDim2.new(0.5, -100, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+Frame.BorderSizePixel = 2
+Frame.BorderColor3 = Color3.fromRGB(100, 100, 100)
+Frame.Parent = ScreenGui
 
-local usernameTextBox = Instance.new("TextBox")
-usernameTextBox.PlaceholderText = "Enter player username"
-usernameTextBox.Size = UDim2.new(0.8, 0, 0.1, 0)
-usernameTextBox.Position = UDim2.new(0.1, 0, 0.1, 0)
-usernameTextBox.Parent = frame
+local UsernameTextBox = Instance.new("TextBox")
+UsernameTextBox.PlaceholderText = "Enter username"
+UsernameTextBox.Size = UDim2.new(0.8, 0, 0, 20)
+UsernameTextBox.Position = UDim2.new(0.1, 0, 0.1, 0)
+UsernameTextBox.TextColor3 = Color3.fromRGB(255, 0, 0) -- Red text color
+UsernameTextBox.Parent = Frame
 
-local banExplanationTextBox = Instance.new("TextBox")
-banExplanationTextBox.PlaceholderText = "Enter ban explanation"
-banExplanationTextBox.Size = UDim2.new(0.8, 0, 0.1, 0)
-banExplanationTextBox.Position = UDim2.new(0.1, 0, 0.25, 0)
-banExplanationTextBox.Parent = frame
+local BanExplanationTextBox = Instance.new("TextBox")
+BanExplanationTextBox.PlaceholderText = "Ban explanation"
+BanExplanationTextBox.Size = UDim2.new(0.8, 0, 0, 20)
+BanExplanationTextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
+BanExplanationTextBox.TextColor3 = Color3.fromRGB(255, 0, 0) -- Red text color
+BanExplanationTextBox.Parent = Frame
 
-local kickButton = Instance.new("TextButton")
-kickButton.Text = "Kick"
-kickButton.Size = UDim2.new(0.4, 0, 0.1, 0)
-kickButton.Position = UDim2.new(0.3, 0, 0.4, 0)
-kickButton.Parent = frame
+local KickButton = Instance.new("TextButton")
+KickButton.Text = "Kick"
+KickButton.Size = UDim2.new(0.3, 0, 0, 30)
+KickButton.Position = UDim2.new(0.35, 0, 0.7, 0)
+KickButton.BackgroundColor3 = Color3.fromHSV(math.random(), 1, 1)
+KickButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+KickButton.Parent = Frame
 
-local function kickPlayer()
-    local playerName = usernameTextBox.Text
-    local banExplanation = banExplanationTextBox.Text
-    
-    local player = game.Players:FindFirstChild(playerName)
-    if player then
-        player:Kick("You have been kicked. Reason: " .. banExplanation)
-        local successMessage = Instance.new("TextLabel")
-        successMessage.Text = "Successful"
-        successMessage.Size = UDim2.new(1, 0, 0.1, 0)
-        successMessage.Position = UDim2.new(0, 0, 0.55, 0)
-        successMessage.Parent = frame
-        local explosion = Instance.new("Explosion")
-        explosion.Parent = player.Character.HumanoidRootPart
-    else
-        local errorMessage = Instance.new("TextLabel")
-        errorMessage.Text = "Unsuccessful"
-        errorMessage.Size = UDim2.new(1, 0, 0.1, 0)
-        errorMessage.Position = UDim2.new(0, 0, 0.55, 0)
-        errorMessage.Parent = frame
-    end
-end
-
-kickButton.MouseButton1Click:Connect(kickPlayer)
+KickButton.MouseButton1Click:Connect(function()
+    kickPlayer(UsernameTextBox.Text, BanExplanationTextBox.Text)
+end)
