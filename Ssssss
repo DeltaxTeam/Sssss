@@ -1,36 +1,39 @@
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Creating a ScreenGui to hold the GUI elements
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 200, 0, 150)
-Frame.Position = UDim2.new(0.5, -100, 0.5, -75)
-Frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-Frame.BorderSizePixel = 2
-Frame.BorderColor3 = Color3.fromRGB(100, 100, 100)
-Frame.Parent = ScreenGui
+-- Creating a Frame to hold the input fields and button
+local frame = Instance.new("Frame")
+frame.Position = UDim2.new(0.2, 0, 0.2, 0) -- Adjust position as desired
+frame.Size = UDim2.new(0.6, 0, 0.6, 0) -- Adjust size as desired
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Adjust color as desired
+frame.Parent = screenGui
 
-local UsernameTextBox = Instance.new("TextBox")
-UsernameTextBox.PlaceholderText = "Enter username"
-UsernameTextBox.Size = UDim2.new(0.8, 0, 0, 20)
-UsernameTextBox.Position = UDim2.new(0.1, 0, 0.1, 0)
-UsernameTextBox.TextColor3 = Color3.fromRGB(255, 0, 0) -- Red text color
-UsernameTextBox.Parent = Frame
+-- Creating input fields for player username and ban explanation
+local usernameInput = Instance.new("TextBox")
+usernameInput.PlaceholderText = "Enter player username"
+usernameInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+usernameInput.Position = UDim2.new(0.1, 0, 0.1, 0)
+usernameInput.Parent = frame
 
-local BanExplanationTextBox = Instance.new("TextBox")
-BanExplanationTextBox.PlaceholderText = "Ban explanation"
-BanExplanationTextBox.Size = UDim2.new(0.8, 0, 0, 20)
-BanExplanationTextBox.Position = UDim2.new(0.1, 0, 0.4, 0)
-BanExplanationTextBox.TextColor3 = Color3.fromRGB(255, 0, 0) -- Red text color
-BanExplanationTextBox.Parent = Frame
+local explanationInput = Instance.new("TextBox")
+explanationInput.PlaceholderText = "Enter ban explanation"
+explanationInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+explanationInput.Position = UDim2.new(0.1, 0, 0.4, 0)
+explanationInput.Parent = frame
 
-local KickButton = Instance.new("TextButton")
-KickButton.Text = "Kick"
-KickButton.Size = UDim2.new(0.3, 0, 0, 30)
-KickButton.Position = UDim2.new(0.35, 0, 0.7, 0)
-KickButton.BackgroundColor3 = Color3.fromHSV(math.random(), 1, 1)
-KickButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-KickButton.Parent = Frame
+-- Creating a button to ban the player
+local banButton = Instance.new("TextButton")
+banButton.Text = "Ban"
+banButton.Size = UDim2.new(0.4, 0, 0.1, 0)
+banButton.Position = UDim2.new(0.3, 0, 0.7, 0)
+banButton.Parent = frame
 
-KickButton.MouseButton1Click:Connect(function()
-    kickPlayer(UsernameTextBox.Text, BanExplanationTextBox.Text)
+-- Function to ban the player when the button is clicked
+banButton.MouseButton1Click:Connect(function()
+    local playerName = usernameInput.Text
+    local banExplanation = explanationInput.Text
+
+    game.Players:FindFirstChild(playerName):Kick(banExplanation)
+    wait(0.1) -- Wait for 0.1 seconds before banning to allow GUI to close smoothly
 end)
